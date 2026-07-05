@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DevBlog</title>
+	<link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}"> 
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/templatemo-xtra-blog.css' %}" rel="stylesheet">
+
+</head>
+<body>
+	<header class="tm-header" id="tm-header">
+        <div class="tm-header-wrapper">
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="tm-site-header">
+                
+            <div class="mb-3 mx-auto tm-site-logo"><i class="fas fa-laptop-code fa-2x"></i></div>
+                <h1 class="text-center">DevBlog</h1>
+            </div>
+            <nav class="tm-nav" id="tm-nav">            
+                <ul>
+                    <li class="tm-nav-item active"><a href="{% url 'home' %}" class="tm-nav-link">
+                        <i class="fas fa-home"></i>
+                        Blog Home
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'create_post' %}" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Single Post
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'about' %}" class="tm-nav-link">
+                        <i class="fas fa-users"></i>
+                        About 
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'contact' %}" class="tm-nav-link">
+                        <i class="far fa-comments"></i>
+                        Contact Us
+                    </a></li>
+                    {% if request.user.is_authenticated %}
+                     <li class="tm-nav-item"><a href="{% url 'logout' %}" class="tm-nav-link text-danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Log Out
+                    </a></li>
+                    {% else %}
+                    <li class="tm-nav-item"><a href="{% url 'register' %}" class="tm-nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        Sign Up
+                    </a></li>
+                    <li class="tm-nav-item"><a href="{% url 'login' %}" class="tm-nav-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Log In
+                    </a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <div class="tm-mb-65">
+                <a rel="nofollow" href="https://fb.com/templatemo" class="tm-social-link">
+                    <i class="fab fa-facebook tm-social-icon"></i>
+                </a>
+                <a href="https://twitter.com" class="tm-social-link">
+                    <i class="fab fa-twitter tm-social-icon"></i>
+                </a>
+                <a href="https://instagram.com" class="tm-social-link">
+                    <i class="fab fa-instagram tm-social-icon"></i>
+                </a>
+                <a href="https://linkedin.com" class="tm-social-link">
+                    <i class="fab fa-linkedin tm-social-icon"></i>
+                </a>
+            </div>
+            <p class="tm-mb-80 pr-5 text-white">
+                Welcome to DevBlog — a modern blogging platform built with Django. Explore programming articles, share your ideas, and connect with developers through a clean and responsive experience.
+        </div>
+    </header>
+    <div class="container-fluid">
+        <main class="tm-main">
+            {% for message in messages %}
+            <div id="alert" class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>{{ message }}</strong> 
+  <button type="button" class="close" style="margin: 7px; font-size: xx-large" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+            {% endfor %}
+            <!-- Search form -->
+            <div class="row tm-row">
+                <div class="col-12">
+                    {% if request.path == '/home/' %}
+                    <form class="form-inline tm-mb-80 tm-search-form" action = "{% url 'home' %}">                
+                        <input class="form-control tm-search-input" name="search" type="search" placeholder="Search..." aria-label="Search">
+                        <button class="tm-search-button" type="submit">
+                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+                        </button>                                
+                    </form>
+                    {% endif %}
+
+<div class="form-inline tm-mb-80 tm-search-form"></div>
+<div style="margin: 10px;">
+   <a href="{%if request.user.profile.id %}{% url 'profile' request.user.id %}{%else%}{%endif%}" class="tm-profile-link">
+     <span class="tm-profile-name">{{request.user.profile.name|title}}</span>
+     <img src="{%if request.user.profile.img %}
+     {{request.user.profile.img.url}}
+     {%else%}
+     {%endif%}" height="50" width="50" alt="" style="border-radius: 30%; object-fit: cover;">
+   </a>                               
+</div>
+
+
+                </div>                
+            </div>   
+                {% block content%}
+                
+                {% endblock content %}
+
+            <footer class="row tm-row">
+                <hr class="col-12">
+                <div class="col-md-6 col-12 tm-color-gray">
+                    Developed by
+<a href="https://muhamedhossafy.github.io/My-Portfolio-DevMA/"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="tm-external-link">
+    Muhamad Ammar
+</a>
+                </div>
+                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+                    © 2026 DevBlog. All Rights Reserved.
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/templatemo-script.js' %}"></script>
+    <script>
+        setInterval(() => {
+            $('#alert').fadeOut();
+        }, 3000);
+    </script>
+</body>
+</html>
